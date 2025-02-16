@@ -1,0 +1,33 @@
+
+./target/riscv32imac-unknown-none-elf/release/rust_riscv:     file format elf32-littleriscv
+
+
+Disassembly of section .text:
+
+<_start>:
+	1141                	addi	sp,sp,-16
+	c606                	sw	ra,12(sp)
+	00000097          	auipc	ra,0x0
+	016080e7          	jalr	22(ra) # <main>
+	000125b7          	lui	a1,0x12
+	12a5a823          	sw	a0,304(a1) # <_ZN10rust_riscv6RESULT17ha26bc3dfb5ff0c2cE>
+	40b2                	lw	ra,12(sp)
+	0141                	addi	sp,sp,16
+	8082                	ret
+
+<main>:
+	1141                	addi	sp,sp,-16
+	c606                	sw	ra,12(sp)
+	4509                	li	a0,2
+	458d                	li	a1,3
+	00000097          	auipc	ra,0x0
+	016080e7          	jalr	22(ra) # <sum_2_number>
+	000125b7          	lui	a1,0x12
+	12a5aa23          	sw	a0,308(a1) # <_ZN10rust_riscv8RESULT_217hd55270e3bb8c12abE>
+	40b2                	lw	ra,12(sp)
+	0141                	addi	sp,sp,16
+	8082                	ret
+
+<sum_2_number>:
+	952e                	add	a0,a0,a1
+	8082                	ret

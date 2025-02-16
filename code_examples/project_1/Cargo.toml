@@ -1,0 +1,19 @@
+[package]
+edition = "2021"
+name = "rust_riscv"
+version = "0.1.0"
+
+[toolchain]
+channel = "nightly"
+
+[dependencies]
+riscv = "0.7"
+
+
+[dependencies.riscv-rt]
+# features = ["rt"] # Enables runtime support for RISC-V
+version = "0.8.1"
+
+[profile.release]
+codegen-units = 1
+incremental = false
