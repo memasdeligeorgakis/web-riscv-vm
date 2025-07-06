@@ -1,0 +1,17 @@
+{
+	"llvm-target": "riscv32-unknown-none-elf",
+	"target-pointer-width": "32",
+	"target-endian": "little",
+	"data-layout": "e-m:e-p:32:32-i64:64-n32-S128",
+	"arch": "riscv32",
+	"os": "none",
+	"env": "",
+	"vendor": "unknown",
+	"linker-flavor": "ld.lld",
+	"linker": "rust-lld",
+	"relocation-model": "static",
+	"executables": true,
+	"disable-redzone": true,
+	"panic-strategy": "abort",
+	"features": "+m,+a"
+}

@@ -5,3 +5,10 @@ version = "0.1.0"
 
 [dependencies]
 thiserror = { version = "*" }
+
+[dev-dependencies]
+cargo-fuzz = "*"
+
+[lib]
+name = "riscv_emulator"
+path = "src/lib.rs"

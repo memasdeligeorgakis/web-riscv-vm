@@ -20,7 +20,13 @@ pub struct Registers {
 #[derive(Debug)]
 pub struct VmState {
     pub registers: [i32; 32],
+
+    /// stack pointer
+    // This should be register x2 by the specs (page 41)
+    // https://drive.google.com/file/d/1uviu1nH-tScFfgrovvFCrj7Omv8tFtkp/view
     pub sp: i32,
+
+    /// program counter
     pub pc: i32,
 }
 
@@ -35,12 +41,6 @@ impl Default for VmState {
     }
 }
 
-#[derive(Debug)]
-pub enum Instruction {
-    PseudoInstruction(i32, PseudoInstruction),
-    Rv32iInstruction(i32, Rv32iInstruction),
-}
-
 struct Vm {
     vm_state: VmState,
 }
@@ -52,14 +52,15 @@ impl Vm {
     ) -> Result<(), Rv32iInstructionError> {
         for instruction in instructions {
             let _ = instruction.execute_instruction(&mut self.vm_state);
-            dbg!(self.vm_state.pc);
-            // if result.is_err() {
-            //     println!("{result:?}");
-            //     return result;
-            // }
         }
         Ok(())
     }
+}
+
+#[derive(Debug)]
+pub enum Instruction {
+    PseudoInstruction(i32, PseudoInstruction),
+    Rv32iInstruction(i32, Rv32iInstruction),
 }
 
 impl Instruction {
@@ -92,6 +93,8 @@ impl Instruction {
                     Rv32iInstruction::rv32i_instruction_bltu(source1_source2_immediate, vm_state);
                     Ok(())
                 }
+                // if we end up here, it means that the instruction is not
+                // implemented yet
                 _ => {
                     println!("not implemented yet: {self:?}");
                     Err(Rv32iInstructionError::InstructionNotImplemented(
@@ -99,11 +102,11 @@ impl Instruction {
                     ))
                 }
             },
+
             // pseudo instructions extension
             Self::PseudoInstruction(memory_address, pseudo_instruction) => match pseudo_instruction
             {
                 PseudoInstruction::Li(DestinationImmediate { rd, imm }) => {
-                    println!("{self:?}");
                     vm_state.registers[*rd as usize] = *imm as i32;
                     Ok(())
                 }
@@ -130,6 +133,8 @@ pub enum PseudoInstruction {
 }
 
 pub struct Emulator {
+    // index 1 to hold the return address for a call
+    // index 2 should be stack pointer
     registers: [u32; 32],
     pc: u32,
 }
@@ -301,7 +306,6 @@ mod test {
             sp: 0,
         };
 
-        dbg!(vm_state.pc);
         let mut vm = Vm { vm_state };
 
         let _ = vm.execute_instructions(instructions);

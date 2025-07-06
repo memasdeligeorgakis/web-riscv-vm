@@ -1,4 +1,5 @@
 use super::emulator::VmState;
+use super::instruction_formats::{InstructionFormat, InstructionFormatR};
 use super::instruction_signatures::{
     DestinationImmediate, DestinationSource1Immediate, DestinationSource1Source2,
     PseudoLiSignature, Source1Source2Immediate,
@@ -100,14 +101,6 @@ pub enum Rv32iInstruction {
 
 /// the implementations of the instructions for RV32I are in this block
 impl Rv32iInstruction {
-    // fn aaa(&self) {
-    //     match self {
-    //         Self::Add(signature) => {}
-    //         _ => {
-    //             println!("not implemented yet")
-    //         }
-    //     }
-    // }
     /// Implements the add instruction
     pub fn rv32i_instruction_add(
         destination_source1_source2: &DestinationSource1Source2,
@@ -150,6 +143,26 @@ impl Rv32iInstruction {
         //     vm_state.pc += source1_source2_immediate.imm as i32;
         // }
 
+        unimplemented!()
+    }
+
+    /// 4 * 8bits = 32bits
+    pub fn from_core_instruction_format(instruction: [u8; 4]) -> Self {
+        // turn [u8; 4] to opcode
+        let opcode = InstructionFormat::get_opcode_from_instruction(instruction);
+
+        // figure out which RV32I instruction it is
+        let instruction_format = InstructionFormat::detect_format_from_opcode(opcode);
+
+        // try to cast to that RV32I
+        let instruction_as_u32 = u32::from_le_bytes(instruction);
+
+        let casted_instruction_maybe = match instruction_format {
+            InstructionFormat::R => Some(InstructionFormatR::new(instruction_as_u32)),
+            _ => None,
+        };
+
+        // Return
         unimplemented!()
     }
 }
