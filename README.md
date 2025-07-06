@@ -5,7 +5,7 @@
 
 ## How to run it
 
-```sh
+```bash
 # chmod +x ./scripts/run_tests.sh
 ./scripts/run_tests.sh
 ```
@@ -26,7 +26,7 @@
 
 ## project structure
 
-```sh
+```bash
 /src
 	/code_examples				# example rust programs to generate RISC-V code
 	/emulator
