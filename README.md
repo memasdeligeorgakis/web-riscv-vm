@@ -28,10 +28,10 @@
 
 ```bash
 /src
-	/code_examples				# example rust programs to generate RISC-V code
+	/code_examples # example rust programs to generate RISC-V code
 	/emulator
-		/emulator.rs			# core of the emulator
-		/rv32i.rs				# implementation of RV32I instructions
+		/emulator.rs # core of the emulator
+		/rv32i.rs # implementation of RV32I instructions
 		/instruction_formats.rs	# instructions formats R, I, S, B, U
 ```
 
