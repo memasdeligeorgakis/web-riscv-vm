@@ -1,8 +1,7 @@
 use super::emulator::VmState;
 use super::instruction_formats::{InstructionFormat, InstructionFormatR};
 use super::instruction_signatures::{
-    DestinationImmediate, DestinationSource1Immediate, DestinationSource1Source2,
-    PseudoLiSignature, Source1Source2Immediate,
+    DestinationImmediate, DestinationSource1Immediate, DestinationSource1Source2, Source1Source2Immediate,
 };
 
 #[derive(Debug)]

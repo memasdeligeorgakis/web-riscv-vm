@@ -35,9 +35,9 @@ impl InstructionFormat {
     }
 
     pub fn get_opcode_from_instruction(instruction: [u8; 4]) -> u8 {
-        let opcode = instruction[0] & 0x7F;
+        
 
-        opcode
+        instruction[0] & 0x7F
     }
 }
 
@@ -77,9 +77,9 @@ impl InstructionFormatR {
     /// this is how the instructions are in elf file
     pub fn parse_instruction_from_bytes(bytes: &[u8]) -> Self {
         let instruction = u32::from_le_bytes([bytes[0], bytes[1], bytes[2], bytes[3]]);
-        let parsed = Self::new(instruction);
+        
 
-        parsed
+        Self::new(instruction)
     }
 }
 
@@ -117,9 +117,9 @@ impl InstructionFormatI {
 
     pub fn parse_instruction_from_bytes(bytes: &[u8]) -> Self {
         let instruction = u32::from_le_bytes([bytes[0], bytes[1], bytes[2], bytes[3]]);
-        let parsed = Self::new(instruction);
+        
 
-        parsed
+        Self::new(instruction)
     }
 }
 

@@ -1,0 +1,2 @@
+# might not work as is
+# cargo build --release --target riscv32ima-unknown-none-elf && riscv64-unknown-elf-objdump -d ./target/riscv32imac-unknown-none-elf/release/rust_riscv | sed '/Disassembly of section .text:/,/^$/d' | grep -v 'file format' > ./rust_riscv.s

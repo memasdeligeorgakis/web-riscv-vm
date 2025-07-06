@@ -1,7 +1,5 @@
-use super::instruction_signatures::{
-    DestinationImmediate, DestinationSource1Immediate, DestinationSource1Source2,
-    PseudoLiSignature, Source1Source2Immediate,
-};
+use super::instruction_signatures::DestinationImmediate;
+
 use super::rv32i::Rv32iInstruction;
 use std::usize;
 use thiserror::Error;
@@ -32,7 +30,7 @@ pub struct VmState {
 
 impl Default for VmState {
     fn default() -> Self {
-        let mut initial_registers = [0; 32];
+        let initial_registers = [0; 32];
         Self {
             pc: 1000,
             registers: initial_registers,
@@ -211,16 +209,19 @@ impl Emulator {
 
 #[cfg(test)]
 mod test {
+    // not from this file
+    // used for building programs from instruction signatures
+    use super::super::instruction_signatures::{
+        DestinationSource1Source2, Source1Source2Immediate,
+    };
 
     use super::DestinationImmediate;
-    use super::DestinationSource1Immediate;
-    use super::DestinationSource1Source2;
+
     use super::Emulator;
     use super::Instruction;
     use super::PseudoInstruction;
-    use super::PseudoLiSignature;
+
     use super::Rv32iInstruction;
-    use super::Source1Source2Immediate;
     use super::Vm;
     use super::VmState;
 
@@ -327,19 +328,11 @@ mod test {
 
     #[test]
     fn should_initiate_vm_with_correct_default_values() {
-        // let mut emulator = Emulator::new();
-
         let vm_state = VmState::default();
 
-        dbg!(vm_state);
-
-        // so effectively it becomes
-        // in 16 bits
-        // 0001 0000 0000 0000
-        // assert_eq!(
-        //     emulator.get_register_value(register_index),
-        //     0b0001_0000_0000_0000
-        // );
+        assert_eq!(vm_state.registers, [0; 32]);
+        assert_eq!(vm_state.sp, 0);
+        assert_eq!(vm_state.pc, 1000);
     }
 
     #[test]
@@ -354,11 +347,10 @@ mod test {
         // 0000 0000 0000 0000 0001 0000 0000 0000
         emulator.lui(register_index, 1);
 
+        // this equals 4096 in decimal (1 << 12 = 1 * 2^12 = 4096)
         assert_eq!(emulator.get_register_value(register_index), 4096);
 
-        // so effectively it becomes
-        // in 16 bits
-        // 0001 0000 0000 0000
+        // verify the same result using binary literal for clarity
         assert_eq!(
             emulator.get_register_value(register_index),
             0b0001_0000_0000_0000
